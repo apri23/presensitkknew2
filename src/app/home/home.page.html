@@ -1,0 +1,46 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>PRESENSI TKK MOBILE</ion-title>
+    <ion-buttons slot="end">
+        <ion-button (click)="logout()">
+          <ion-icon slot="icon-only" name="log-out"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="font-item" fullscreen>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-subtitle style="text-align: center; font-size: 13px;">Selamat Datang</ion-card-subtitle>
+      <ion-card-title style="text-align: center; font-size: 15px;">{{nik}} - {{nama}}</ion-card-title>
+      <ion-card-subtitle style="text-align: center; font-size: 13px;">{{desk}}</ion-card-subtitle>
+      <ion-card-subtitle style="text-align: center; font-size: 13px;">{{namawilayah}} - {{nopend}}</ion-card-subtitle>
+    </ion-card-header>
+  </ion-card>
+
+    <ion-grid>
+      <ion-row class="windows">
+        <ion-col>
+        </ion-col>
+        <ion-col (click)="Absensi()">
+          <a class="color">
+            <div class="class2-2">
+              <img src="~/../assets/clock.svg" class="my-icon">
+              <table align="center" style="color: var(--ion-color-dark); font-size: 13px; margin-top: 5px;">Presensi</table>
+            </div>
+          </a>
+        </ion-col>
+        <ion-col>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+</ion-content>
+
+<ion-footer class="ion-no-border">
+  <ion-toolbar class="tol2" style="--background: transparent; --ion-color-base: transparent !important;">
+    <ion-title labelbot>Bangsisfo Support PT. POS INDONESIA ©2020</ion-title>
+  </ion-toolbar>
+</ion-footer>

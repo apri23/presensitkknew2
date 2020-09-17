@@ -1,0 +1,13 @@
+ion-card{
+  --background: var(--ion-color-light);
+  border-radius: 10px;
+}
+
+[iconqty]{
+	float: right;
+	font-size: 30px;
+}
+
+ion-content{
+  --background: url(~/../assets/bg1.png) 0 0/100% 100% no-repeat;
+}

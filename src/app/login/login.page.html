@@ -1,0 +1,36 @@
+<ion-content fullscreen>
+  <div class="box-header">
+    <img src="~/../assets/ss.png" height="120">
+  </div>
+  
+  <div class="box-card" style="padding-bottom: 30px;">
+    <ion-card class="card-ion">
+      <ion-card-header style="background-color: #f7f7f7; padding-bottom: 0px;">
+        <h3 style="color: var(--ion-color-primary);"><b>PRESENSI TKK MOBILE</b></h3>
+        <div class="hr"> </div>
+        <h4 style="color:var(--ion-color-primary); font-size: 15px; padding-top: 10px;">Masukkan NIK dan Password !</h4>
+        <ion-item transparent>
+          <img icon-small src="assets/user.svg" />
+          <ion-input ioninput [(ngModel)]="nik" placeholder="Masukkan NIK.." type="text"></ion-input>
+        </ion-item>
+        <ion-item transparent>
+          <img icon-small src="assets/lock.svg" />
+          <ion-input ioninput name="password" [(ngModel)]="pass" placeholder="Masukkan Password.." [type]="showPassword ? 'text' : 'password'"></ion-input>
+          <ion-icon matadewa slot="end" (click)="togglePassword()" [name]="passwordToggleIcon"></ion-icon>
+        </ion-item>
+        <div linespace></div>
+        <ion-button class="butonlogin" mode="ios" expand="block" color="success" (click)="login_action()">Login</ion-button>
+        <div linespace></div>
+      </ion-card-header>
+      <!-- <ion-card-content style="margin: 0px; padding: 0px; background-color: var(--ion-color-primary);">
+        <h5 style="padding: 15px 0px; margin: 0px; text-align: center; font-size: 14px; color: #fff;"><b>Copyright &copy; 2020 Pos Indonesia</b></h5>
+      </ion-card-content> -->
+    </ion-card>
+  </div>
+</ion-content>
+
+<ion-footer class="ion-no-border">
+  <ion-toolbar class="tol2" style="--background: transparent; --ion-color-base: transparent !important;">
+    <ion-title labelbot><b>Copyright &copy; 2020 Pos Indonesia - {{versi}}</b></ion-title>
+  </ion-toolbar>
+</ion-footer>

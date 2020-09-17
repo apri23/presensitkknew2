@@ -1,0 +1,134 @@
+<ion-header>
+  <ion-toolbar class="tol">
+    <ion-buttons class="ikon" slot="start">
+    	<ion-icon name="arrow-back-outline" style="margin-left: 10px;" (click)="back()"></ion-icon>
+    </ion-buttons>
+    <ion-title class="titleakun">Presensi</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen>
+	<ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+		<ion-refresher-content></ion-refresher-content>
+	</ion-refresher>
+
+	<ion-card>
+		<ion-card-content style="border-bottom: 1px solid #ff8a35;">
+			<ion-row>
+				<ion-col size="3"><p style="font-size: 12px;"><b>NIK</b></p></ion-col>
+				<ion-col size="0.5"><p style="font-size: 12px;"><b>:</b></p></ion-col>
+				<ion-col size="8.5"><p style="font-size: 12px;"><b (click)="get_tokken();">{{nik}}</b></p></ion-col>
+			</ion-row>
+			<ion-row>
+				<ion-col size="3"><p style="font-size: 12px;"><b>Nama</b></p></ion-col>
+				<ion-col size="0.5"><p style="font-size: 12px;"><b>:</b></p></ion-col>
+				<ion-col size="8.5"><p style="font-size: 12px;"><b>{{nama}}</b></p></ion-col>
+			</ion-row>
+			<ion-row>
+				<ion-col size="3"><p style="font-size: 12px;"><b>Lokasi</b></p></ion-col>
+				<ion-col size="0.5"><p style="font-size: 12px;"><b>:</b></p></ion-col>
+				<ng-container *ngIf="lat==''; then noloc; else loc"></ng-container>
+				<ng-template #noloc>
+					<ion-col size="8.5"><p style="font-size: 12px;"><b>Mencari lokasi...</b></ion-col>
+				</ng-template>
+				<ng-template #loc>
+					<ion-col size="8.5"><p style="font-size: 12px;"><b>{{lat}}, {{long}}</b></ion-col>
+				</ng-template>
+			</ion-row>
+			<ion-row>
+				<ion-col size="3"><p style="font-size: 12px;"><b>Tanggal</b></p></ion-col>
+				<ion-col size="0.5"><p style="font-size: 12px;"><b>:</b></p></ion-col>
+				<ion-col size="8.5"><p style="font-size: 12px;"><b>{{tgl_show}}</b></p></ion-col>
+			</ion-row>
+		</ion-card-content>
+	</ion-card>
+
+	<ion-row style="margin-top: 20px;">
+		<ion-col size="8">
+			<ion-item-divider>
+	            <ion-label style="color: #000; font-size: 14px;">{{presensimasuk}}</ion-label>
+	        </ion-item-divider>
+	        <ion-progress-bar [hidden]="!loadmasuk" type="indeterminate"></ion-progress-bar>
+		</ion-col>
+		<ion-col size="4">
+			<ion-button [disabled]="masukket" expand="block" color="primary" (click)="presensimasukadd()">Masuk</ion-button>
+		</ion-col>
+	</ion-row>
+
+	<ion-row style="margin-top: 10px; margin-bottom: 15px;">
+		<ion-col size="8">
+			<ion-item-divider>
+	            <ion-label style="color: #000;">{{presensipulang}}</ion-label>
+	        </ion-item-divider>
+	        <ion-progress-bar [hidden]="!loadpulang" type="indeterminate"></ion-progress-bar>
+		</ion-col>
+		<ion-col size="4">
+			<ng-container *ngIf="masukket==true; then bisapulang; else tidakbisapulang"></ng-container>
+			<ng-template #bisapulang>
+				<ion-button expand="block" color="tertiary" (click)="presensipulangadd()">Pulang</ion-button>
+			</ng-template>
+			<ng-template #tidakbisapulang>
+				<ion-button expand="block" color="tertiary" disabled>Pulang</ion-button>
+			</ng-template>
+		</ion-col>
+	</ion-row>
+
+	<ng-container *ngIf="masukket==true; then bisapulang1; else tidakbisapulang1"></ng-container>
+	<ng-template #bisapulang1>
+		<ion-button size="small" (click)="hidenopendesctrack()" *ngIf="!opendesctrack" fill="clear" expand="block">
+	      	<ion-label style="text-shadow: 1px 1px #fff;"><b>Tampilkan Rekap </b><ion-icon name="chevron-down-sharp" ></ion-icon></ion-label>
+		</ion-button>
+		<ion-button size="small" (click)="hidenopendesctrack()" *ngIf="opendesctrack" fill="clear" expand="block">
+	      	<ion-label style="text-shadow: 1px 1px #fff;"><b>Sembunyikan Rekap </b><ion-icon name="chevron-up-sharp" ></ion-icon></ion-label>
+		</ion-button>
+		<ion-progress-bar [hidden]="!loadshowrekap" type="indeterminate"></ion-progress-bar>
+	</ng-template>
+	<ng-template #tidakbisapulang1>
+		
+	</ng-template>
+
+	<ion-card [hidden]="!opendesctrack">
+		<ion-card-content style="border-bottom: 1px solid #ff8a35; padding: 10px;">
+			<ion-row>
+				<ion-col><p style="font-size: 14px;"><b>Presensi Masuk ({{rekappresensimasuk.jenis}})</b></p></ion-col>
+			</ion-row>
+			<ion-row>
+				<ion-col size="2"><p style="font-size: 13px;"><b>Jam</b></p></ion-col>
+				<ion-col size="0.5"><p style="font-size: 13px;"><b>:</b></p></ion-col>
+				<ion-col size="7.5"><p style="font-size: 13px;"><b>{{jam_only(rekappresensimasuk.tanggal)}}</b></p></ion-col>
+				<ng-container *ngIf="rekappresensimasuk.ket==''; then masuknormal; else nomasuknormal"></ng-container>
+				<ng-template #masuknormal>
+
+				</ng-template>
+				<ng-template #nomasuknormal>
+					<ion-col size="2">
+						<ion-icon iconqty src="assets/location.svg" (click)="show_maps(rekappresensimasuk.ket)"></ion-icon>
+					</ion-col>
+				</ng-template>
+			</ion-row>
+		</ion-card-content>
+		<ng-container *ngIf="rekappresensipulang.jam=='00:00:00'; then nopulang; else pulang"></ng-container>
+		<ng-template #nopulang></ng-template>
+		<ng-template #pulang>
+			<ion-card-content style="border-bottom: 1px solid #ff8a35; padding: 10px;">
+				<ion-row>
+					<ion-col><p style="font-size: 14px;"><b>Presensi Pulang ({{rekappresensipulang.jenis}})</b></p></ion-col>
+				</ion-row>
+				<ion-row>
+					<ion-col size="2"><p style="font-size: 13px;"><b>Jam</b></p></ion-col>
+					<ion-col size="0.5"><p style="font-size: 13px;"><b>:</b></p></ion-col>
+					<ion-col size="7.5"><p style="font-size: 13px;"><b>{{jam_only(rekappresensipulang.tanggal)}}</b></p></ion-col>
+					<ng-container *ngIf="rekappresensipulang.ket==''; then pulangnormal; else nopulangnormal"></ng-container>
+					<ng-template #pulangnormal>
+
+					</ng-template>
+					<ng-template #nopulangnormal>
+						<ion-col size="2">
+							<ion-icon iconqty src="assets/location.svg" (click)="show_maps(rekappresensipulang.ket)"></ion-icon>
+						</ion-col>
+					</ng-template>
+				</ion-row>
+			</ion-card-content>
+		</ng-template>
+	</ion-card>
+</ion-content>

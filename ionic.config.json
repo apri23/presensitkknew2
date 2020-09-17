@@ -1,0 +1,7 @@
+{
+  "name": "presensitkknew",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}
